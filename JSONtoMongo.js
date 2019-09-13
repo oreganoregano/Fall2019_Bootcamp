@@ -26,3 +26,31 @@ var fs = require('fs'),
   Check to see if it works: Once you've written + run the script, check out your MongoLab database to ensure that 
   it saved everything correctly. 
  */
+
+mongoose.connect(config.db.uri, { useNewUrlParser: true });
+mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
+fs.readFile('listings.json', 'utf8', function(err, data) {
+  var listingData;
+  if (err) console.log(err);
+  else {
+    listingData = JSON.parse(data);
+  }
+  listingData.entries.forEach(element => {
+    var name = element.name,
+      code = element.code, 
+      coordinates = {...element.coordinates},
+      address = element.address;
+    var newListing = Listing({
+      name: name,
+      code: code,
+      coordinates: {...coordinates},
+      address: address 
+    }).save(function(err) {
+      if (err) throw err;
+    });
+  });
+  
+})
+
+
