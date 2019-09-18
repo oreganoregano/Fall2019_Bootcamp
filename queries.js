@@ -1,7 +1,8 @@
 /* Add all the required libraries*/
 var mongoose = require("mongoose"),
   Listing = require("./ListingSchema.js"),
-  config = require("./config");
+  config = require("./config"),
+  util = require("util");
 /* Connect to your database using mongoose - remember to keep your key secret*/
 
 /* Fill out these functions using Mongoose queries*/
@@ -53,7 +54,7 @@ var retrieveAllListings = function() {
    */
   Listing.find({}, (err, res) => {
     if (err) throw err;
-    console.log(res);
+    console.log(util.inspect(res, { maxArrayLength: null }));
   });
 };
 
